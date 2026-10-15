@@ -3,6 +3,9 @@
 // 1. Expressを読み込む
 import express from "express";
 
+// DBを読み込む
+import { db } from "./db.js";
+
 // 2. アプリ本体を作る
 const app = express();
 const port = 3000;
