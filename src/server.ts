@@ -17,14 +17,24 @@ const port = 3000;
 
 // 一覧取得API GET /api/memos
 app.get("/api/memos",(req, res) => {
-  // SELECT文を準備する
-  const stmt = db.prepare('SELECT * FROM memos ORDER BY created_at DESC');
-    
-  // 準備したものを実行して、全件を配列で受け取る
-  const memos = stmt.all();
+  // DB処理をtry{}に入れる
+  try {
+    // SELECT文を準備する
+    const stmt = db.prepare('SELECT * FROM memos ORDER BY created_at DESC');
+      
+    // 準備したものを実行して、全件を配列で受け取る
+    const memos = stmt.all();
 
-  // 受け取った配列をJSONで返す
-  res.json(memos);
+    // 受け取った配列をJSONで返す
+    res.json(memos);
+  } catch(err) {
+    // clientへエラーを返す
+    res.status(500);
+    res.json({"message": "メモの取得に失敗しました"});
+
+    // ターミナルへエラー内容を出力する
+    console.error(err);
+  }
 });
 
 
